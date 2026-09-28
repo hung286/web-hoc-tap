@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trợ Lý Giáo Viên - Không Gian Học Tập</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>TRỢ LÝ GIÁO VIÊN TOÁN THPT</h1>
+        <p>"Không gian sáng tạo, công cụ hỗ trợ và trò chơi học tập tương tác"</p>
+    </header>
+
+    <div class="grid-container" id="main-menu">
+        <div class="card" onclick="moChucNang('vong-quay-section')">
+            <div class="icon">🎯</div>
+            <h3>Chọn Học Sinh</h3>
+            <p>Vòng quay may mắn, gọi tên ngẫu nhiên trong lớp</p>
+        </div>
+
+        <div class="card" onclick="alert('Tính năng Trò chơi dạy học đang được phát triển!')">
+            <div class="icon">🎮</div>
+            <h3>Trò Chơi Dạy Học</h3>
+            <p>Mini game tương tác củng cố bài giảng</p>
+        </div>
+
+        <div class="card" onclick="alert('Tính năng Phiếu học tập đang được phát triển!')">
+            <div class="icon">📝</div>
+            <h3>Phiếu Học Tập</h3>
+            <p>Mở thư viện tài liệu, đề thi và bài tập</p>
+        </div>
+    </div>
+
+    <div id="vong-quay-section" class="sub-section hidden">
+        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại Trang chủ</button>
+        <h2>🎯 VÒNG QUAY CHỌN HỌC SINH</h2>
+        
+        <div class="lucky-box">
+            <div id="display-name">Sẵn sàng!</div>
+            <button id="btn-spin" onclick="quaySoNgauNhien()">BẮT ĐẦU QUAY</button>
+        </div>
+        
+        <div class="input-group">
+            <label for="student-list">Danh sách học sinh (mỗi tên một dòng):</label><br>
+            <textarea id="student-list" rows="6">Nguyễn Văn A
+Trần Thị B
+Lê Hoàng C
+Phạm Minh D
+Vũ Thu E</textarea>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

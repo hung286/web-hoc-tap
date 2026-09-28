@@ -4,54 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trợ Lý Giáo Viên - Không Gian Học Tập</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; margin: 0; padding: 20px; text-align: center; color: #2c3e50; }
+        header h1 { color: #1a3a5f; margin-bottom: 5px; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 40px auto; }
+        .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s; border: 1px solid #e2e8f0; }
+        .card:hover { transform: translateY(-5px); border-color: #3182ce; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .icon { font-size: 50px; margin-bottom: 10px; }
+        .sub-section { max-width: 800px; margin: 20px auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .hidden { display: none; }
+        .btn-back { background: #718096; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; float: left; }
+        .iframe-container { position: relative; width: 100%; height: 450px; margin-top: 20px; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; border-radius: 8px; }
+        .box-content { margin-top: 40px; padding: 20px; background: #ebf8ff; border-radius: 12px; }
+        #display-name { font-size: 2.5rem; font-weight: bold; color: #2b6cb0; margin-bottom: 20px; }
+        #btn-spin, .btn-link { background: #3182ce; color: white; padding: 12px 30px; border: none; border-radius: 25px; font-size: 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; }
+        textarea { width: 100%; padding: 10px; border-radius: 8px; box-sizing: border-box; }
+        .calculator { max-width: 250px; margin: 30px auto; background: #2d3748; padding: 15px; border-radius: 12px; }
+        #calc-screen { width: 100%; height: 40px; background: #edf2f7; border: none; text-align: right; padding: 5px; font-size: 1.5rem; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .calc-buttons button { padding: 15px; font-size: 1.1rem; cursor: pointer; border-radius: 6px; border: none; background: #4a5568; color: white; }
+        #btn-equal { grid-row: span 2; height: 100%; background: #3182ce; }
+    </style>
 </head>
 <body>
 
     <header>
-        <h1>TRỢ LÝ GIÁO VIÊN TOÁN THPT</h1>
-        <p>"Không gian sáng tạo, công cụ hỗ trợ và trò chơi học tập tương tác"</p>
+        <h1>TRỢ LÝ GIÁO VIÊN & HỌC TẬP</h1>
+        <p>"Đổi mới sáng tạo, cùng kiến tạo những giờ học truyền cảm hứng"</p>
     </header>
 
     <div class="grid-container" id="main-menu">
         <div class="card" onclick="moChucNang('vong-quay-section')">
             <div class="icon">🎯</div>
             <h3>Chọn Học Sinh</h3>
-            <p>Vòng quay may mắn, gọi tên ngẫu nhiên trong lớp</p>
+            <p>Vòng quay may mắn, gọi tên ngẫu nhiên</p>
         </div>
-
-        <div class="card" onclick="alert('Tính năng Trò chơi dạy học đang được phát triển!')">
+        <div class="card" onclick="moChucNang('game-section')">
             <div class="icon">🎮</div>
             <h3>Trò Chơi Dạy Học</h3>
             <p>Mini game tương tác củng cố bài giảng</p>
         </div>
-
-        <div class="card" onclick="alert('Tính năng Phiếu học tập đang được phát triển!')">
+        <div class="card" onclick="moChucNang('mo-phong-section')">
+            <div class="icon">📐</div>
+            <h3>Mô Phỏng 3D</h3>
+            <p>Hình học không gian trực quan sinh động</p>
+        </div>
+        <div class="card" onclick="moChucNang('phieu-hoc-tap-section')">
             <div class="icon">📝</div>
             <h3>Phiếu Học Tập</h3>
-            <p>Mở thư viện tài liệu, đề thi và bài tập</p>
+            <p>Mở thư viện tài liệu, đề thi, bài tập</p>
+        </div>
+        <div class="card" onclick="moChucNang('may-tinh-section')">
+            <div class="icon">🧮</div>
+            <h3>Trợ Lý Thao Tác</h3>
+            <p>Công cụ máy tính tính toán nhanh chóng</p>
         </div>
     </div>
 
+    <!-- 1. VÒNG QUAY -->
     <div id="vong-quay-section" class="sub-section hidden">
-        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại Trang chủ</button>
-        <h2>🎯 VÒNG QUAY CHỌN HỌC SINH</h2>
-        
-        <div class="lucky-box">
+        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
+        <h2>🎯 GỌI TÊN NGẪU NHIÊN</h2>
+        <div class="box-content">
             <div id="display-name">Sẵn sàng!</div>
             <button id="btn-spin" onclick="quaySoNgauNhien()">BẮT ĐẦU QUAY</button>
-        </div>
-        
-        <div class="input-group">
-            <label for="student-list">Danh sách học sinh (mỗi tên một dòng):</label><br>
-            <textarea id="student-list" rows="6">Nguyễn Văn A
-Trần Thị B
-Lê Hoàng C
-Phạm Minh D
-Vũ Thu E</textarea>
+            <div class="input-group" style="margin-top: 20px; text-align: left;">
+                <label>Danh sách học sinh (mỗi tên một dòng):</label>
+                <textarea id="student-list" rows="5">Nguyễn Văn A&#10;Trần Thị B&#10;Lê Hoàng C&#10;Phạm Minh D</textarea>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- 2. TRÒ CHƠI -->
+    <div id="game-section" class="sub-section hidden">
+        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
+        <h2>🎮 TRÒ CHƠI TƯƠNG TÁC</h2>
+        <div class="iframe-container">
+            <iframe src="https://wordwall.net" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- 3. MÔ PHỎNG 3D -->
+    <div id="mo-phong-section" class="sub-section hidden">
+        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
+        <h2>📐 MÔ PHỎNG HÌNH HỌC 3D</h2>
+        <div class="iframe-container">
+            <iframe src="https://geogebra.org"></iframe>
+        </div>
+    </div>
+
+    <!-- 4. PHIẾU HỌC TẬP -->
+    <div id="phieu-hoc-tap-section" class="sub-section hidden">
+        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
+        <h2>📝 THƯ VIỆN TÀI LIỆU</h2>
+        <div class="box-content">
+            <p>Bấm vào nút bên dưới để mở kho bài giảng và tài liệu học tập (Google Drive):</p>
+            <a href="https://google.com" target="_blank" class="btn-link">Mở Google Drive Tài Liệu</a>
+        </div>
+    </div>
+
+    <!-- 5. MÁY TÍNH -->
+    <div id="may-tinh-section" class="sub-section hidden">
+        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
+        <h2>🧮 MÁY TÍNH MINI</h2>
+        <div class="calculator">
+            <input type="text" id="calc-screen" readonly>
+            <div class="calc-buttons">
+                <button onclick="clearCalc()">C</button>
+                <button onclick="pressCalc('/')">/</button>
+                <button onclick="pressCalc('*')">*</button>
+                <button onclick="pressCalc('-')">-</button>
+                <button onclick="pressCalc('7')">7</button>
+                <button onclick="pressCalc('8')">8</button>
+                <button onclick="pressCalc('9')">9</button>
+                <button onclick="pressCalc('+')">+</button>
+                <button onclick="pressCalc('4')">4</button>
+                <button onclick="pressCalc('5')">5</button>
+                <button onclick="pressCalc('6')">6</button>
+                <button id="btn-equal" onclick="equalCalc()">=</button>
+                <button onclick="pressCalc('1')">1</button>
+                <button onclick="pressCalc('2')">2</button>
+                <button onclick="pressCalc('3')">3</button>
+                <button onclick="pressCalc('0')">0</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function moChucNang(idPhanHe) {
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById(idPhanHe).classList.remove('hidden');
+        }
+        function quayLaiMenu() {
+            const sections = document.querySelectorAll('.sub-section');
+            sections.forEach(s => s.classList.add('hidden'));
+            document.getElementById('main-menu').classList.remove('hidden');
+        }
+        function quaySoNgauNhien() {
+            const text = document.getElementById('student-list').value;
+            const danhSach = text.split('\n').map(name => name.trim()).filter(name => name !== "");
+            if (danhSach.length === 0) { alert("Hãy nhập tên học sinh!"); return; }
+            const btn = document.getElementById('btn-spin');
+            const display = document.getElementById('display-name');
+            btn.disabled = true;
+            let count = 0;
+            const running = setInterval(() => {
+                display.innerText = danhSach[Math.floor(Math.random() * danhSach.length)];
+                count++;
+                if (count > 25) {
+                    clearInterval(running);
+                    btn.disabled = false;
+                    display.innerText = "🎉 " + danhSach[Math.floor(Math.random() * danhSach.length)] + " 🎉";
+                }
+            }, 80);
+        }
+        function pressCalc(val) { document.getElementById('calc-screen').value += val; }
+        function clearCalc() { document.getElementById('calc-screen').value = ""; }
+        function equalCalc() {
+            try { document.getElementById('calc-screen').value = eval(document.getElementById('calc-screen').value); } 
+            catch(e) { document.getElementById('calc-screen').value = 'Lỗi'; }
+        }
+    </script>
 </body>
 </html>

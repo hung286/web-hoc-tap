@@ -3,167 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trợ Lý Giáo Viên - Không Gian Học Tập</title>
+    <title>Khảo sát và vẽ đồ thị hàm số - Tổng hợp hoàn chỉnh</title>
+    <script>
+        MathJax = { tex: { inlineMath: [['\(', '\)'], ['\\(', '\\)']], displayMath: [['\[', '\]']] } };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async src="https://jsdelivr.net"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; margin: 0; padding: 20px; text-align: center; color: #2c3e50; }
-        header h1 { color: #1a3a5f; margin-bottom: 5px; }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 40px auto; }
-        .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s; border: 1px solid #e2e8f0; }
-        .card:hover { transform: translateY(-5px); border-color: #3182ce; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .icon { font-size: 50px; margin-bottom: 10px; }
-        .sub-section { max-width: 800px; margin: 20px auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .hidden { display: none; }
-        .btn-back { background: #718096; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; float: left; }
-        .iframe-container { position: relative; width: 100%; height: 450px; margin-top: 20px; }
-        .iframe-container iframe { width: 100%; height: 100%; border: none; border-radius: 8px; }
-        .box-content { margin-top: 40px; padding: 20px; background: #ebf8ff; border-radius: 12px; }
-        #display-name { font-size: 2.5rem; font-weight: bold; color: #2b6cb0; margin-bottom: 20px; }
-        #btn-spin, .btn-link { background: #3182ce; color: white; padding: 12px 30px; border: none; border-radius: 25px; font-size: 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; }
-        textarea { width: 100%; padding: 10px; border-radius: 8px; box-sizing: border-box; }
-        .calculator { max-width: 250px; margin: 30px auto; background: #2d3748; padding: 15px; border-radius: 12px; }
-        #calc-screen { width: 100%; height: 40px; background: #edf2f7; border: none; text-align: right; padding: 5px; font-size: 1.5rem; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; }
-        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .calc-buttons button { padding: 15px; font-size: 1.1rem; cursor: pointer; border-radius: 6px; border: none; background: #4a5568; color: white; }
-        #btn-equal { grid-row: span 2; height: 100%; background: #3182ce; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
+        .tab-buttons { display: flex; background: #f8f9fa; border-bottom: 1px solid #dee2e6; overflow-x: auto; list-style: none; }
+        .tab-button { flex: 1; min-width: 130px; padding: 20px; background: #f8f9fa; border: none; cursor: pointer; font-weight: 600; color: #6c757d; text-align: center; transition: all 0.3s; }
+        .tab-button.active { background: white; color: #dc3545; border-bottom: 4px solid #dc3545; font-size: 17px; }
+        .tab-content { display: none; padding: 30px; }
+        .tab-content.active { display: block; }
+        .function-form { background: #f8f9fa; padding: 25px; border-radius: 10px; border-left: 4px solid #e74c3c; margin-bottom: 25px; }
+        .input-group { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; margin: 20px 0; }
+        .input-field input { width: 70px; padding: 8px; border: 2px solid #e74c3c; border-radius: 6px; text-align: center; }
+        .analyze-btn { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; border: none; padding: 12px 30px; font-weight: 600; border-radius: 25px; cursor: pointer; margin-right: 10px; }
+        .result-box { margin-top: 25px; padding: 20px; border: 1px solid #dee2e6; border-radius: 8px; display: none; background: #fff; }
+        .canvas-container { text-align: center; margin: 20px 0; }
+        canvas { border: 1px solid #ddd; background: #fafafa; border-radius: 8px; max-width: 100%; }
+        .bbt-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .bbt-table td { border: 1px solid #333; padding: 12px; text-align: center; position: relative; }
+        .bbt-row-y { height: 100px; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>Khảo sát & Vẽ đồ thị Hàm số</h1>
+            <p>Hệ thống tự động lập Bảng biến thiên và render Đồ thị trực quan</p>
+        </div>
+        <ul class="tab-buttons">
+            <li class="tab-button active" onclick="openTab(event, 'tab_bac3')">Hàm bậc ba</li>
+            <li class="tab-button" onclick="openTab(event, 'tab_trungphuong')">Hàm trùng phương</li>
+            <li class="tab-button" onclick="openTab(event, 'tab_nhatbien')">Hàm nhất biến</li>
+        </ul>
 
-    <header>
-        <h1>TRỢ LÝ GIÁO VIÊN & HỌC TẬP</h1>
-        <p>"Đổi mới sáng tạo, cùng kiến tạo những giờ học truyền cảm hứng"</p>
-    </header>
-
-    <div class="grid-container" id="main-menu">
-        <div class="card" onclick="moChucNang('vong-quay-section')">
-            <div class="icon">🎯</div>
-            <h3>Chọn Học Sinh</h3>
-            <p>Vòng quay may mắn, gọi tên ngẫu nhiên</p>
-        </div>
-        <div class="card" onclick="moChucNang('game-section')">
-            <div class="icon">🎮</div>
-            <h3>Trò Chơi Dạy Học</h3>
-            <p>Mini game tương tác củng cố bài giảng</p>
-        </div>
-        <div class="card" onclick="moChucNang('mo-phong-section')">
-            <div class="icon">📐</div>
-            <h3>Mô Phỏng 3D</h3>
-            <p>Hình học không gian trực quan sinh động</p>
-        </div>
-        <div class="card" onclick="moChucNang('phieu-hoc-tap-section')">
-            <div class="icon">📝</div>
-            <h3>Phiếu Học Tập</h3>
-            <p>Mở thư viện tài liệu, đề thi, bài tập</p>
-        </div>
-        <div class="card" onclick="moChucNang('may-tinh-section')">
-            <div class="icon">🧮</div>
-            <h3>Trợ Lý Thao Tác</h3>
-            <p>Công cụ máy tính tính toán nhanh chóng</p>
-        </div>
-    </div>
-
-    <!-- 1. VÒNG QUAY -->
-    <div id="vong-quay-section" class="sub-section hidden">
-        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
-        <h2>🎯 GỌI TÊN NGẪU NHIÊN</h2>
-        <div class="box-content">
-            <div id="display-name">Sẵn sàng!</div>
-            <button id="btn-spin" onclick="quaySoNgauNhien()">BẮT ĐẦU QUAY</button>
-            <div class="input-group" style="margin-top: 20px; text-align: left;">
-                <label>Danh sách học sinh (mỗi tên một dòng):</label>
-                <textarea id="student-list" rows="5">Nguyễn Văn A&#10;Trần Thị B&#10;Lê Hoàng C&#10;Phạm Minh D</textarea>
+        <!-- TAB BẬC 3 -->
+        <div id="tab_bac3" class="tab-content active">
+            <div class="function-form">
+                <h2>\(y = ax^3 + bx^2 + cx + d\)</h2>
+                <div class="input-group">
+                    <div class="input-field"><label>a: </label><input type="number" id="b3_a" value="1"></div>
+                    <div class="input-field"><label>b: </label><input type="number" id="b3_b" value="0"></div>
+                    <div class="input-field"><label>c: </label><input type="number" id="b3_c" value="-3"></div>
+                    <div class="input-field"><label>d: </label><input type="number" id="b3_d" value="2"></div>
+                </div>
+                <button class="analyze-btn" onclick="runBac3()">Khảo sát & Vẽ</button>
             </div>
+            <div id="res_bac3" class="result-box"></div>
         </div>
-    </div>
 
-    <!-- 2. TRÒ CHƠI -->
-    <div id="game-section" class="sub-section hidden">
-        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
-        <h2>🎮 TRÒ CHƠI TƯƠNG TÁC</h2>
-        <div class="iframe-container">
-            <iframe src="https://wordwall.net" allowfullscreen></iframe>
-        </div>
-    </div>
-
-    <!-- 3. MÔ PHỎNG 3D -->
-    <div id="mo-phong-section" class="sub-section hidden">
-        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
-        <h2>📐 MÔ PHỎNG HÌNH HỌC 3D</h2>
-        <div class="iframe-container">
-            <iframe src="https://geogebra.org"></iframe>
-        </div>
-    </div>
-
-    <!-- 4. PHIẾU HỌC TẬP -->
-    <div id="phieu-hoc-tap-section" class="sub-section hidden">
-        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
-        <h2>📝 THƯ VIỆN TÀI LIỆU</h2>
-        <div class="box-content">
-            <p>Bấm vào nút bên dưới để mở kho bài giảng và tài liệu học tập (Google Drive):</p>
-            <a href="https://google.com" target="_blank" class="btn-link">Mở Google Drive Tài Liệu</a>
-        </div>
-    </div>
-
-    <!-- 5. MÁY TÍNH -->
-    <div id="may-tinh-section" class="sub-section hidden">
-        <button class="btn-back" onclick="quayLaiMenu()">← Quay lại</button>
-        <h2>🧮 MÁY TÍNH MINI</h2>
-        <div class="calculator">
-            <input type="text" id="calc-screen" readonly>
-            <div class="calc-buttons">
-                <button onclick="clearCalc()">C</button>
-                <button onclick="pressCalc('/')">/</button>
-                <button onclick="pressCalc('*')">*</button>
-                <button onclick="pressCalc('-')">-</button>
-                <button onclick="pressCalc('7')">7</button>
-                <button onclick="pressCalc('8')">8</button>
-                <button onclick="pressCalc('9')">9</button>
-                <button onclick="pressCalc('+')">+</button>
-                <button onclick="pressCalc('4')">4</button>
-                <button onclick="pressCalc('5')">5</button>
-                <button onclick="pressCalc('6')">6</button>
-                <button id="btn-equal" onclick="equalCalc()">=</button>
-                <button onclick="pressCalc('1')">1</button>
-                <button onclick="pressCalc('2')">2</button>
-                <button onclick="pressCalc('3')">3</button>
-                <button onclick="pressCalc('0')">0</button>
+        <!-- TAB TRÙNG PHƯƠNG -->
+        <div id="tab_trungphuong" class="tab-content">
+            <div class="function-form">
+                <h2>\(y = ax^4 + bx^2 + c\)</h2>
+                <div class="input-group">
+                    <div class="input-field"><label>a: </label><input type="number" id="tp_a" value="1"></div>
+                    <div class="input-field"><label>b: </label><input type="number" id="tp_b" value="-2"></div>
+                    <div class="input-field"><label>c: </label><input type="number" id="tp_c" value="0"></div>
+                </div>
+                <button class="analyze-btn" onclick="runTrungPhuong()">Khảo sát & Vẽ</button>
             </div>
+            <div id="res_trungphuong" class="result-box"></div>
+        </div>
+
+        <!-- TAB NHẤT BIẾN -->
+        <div id="tab_nhatbien" class="tab-content">
+            <div class="function-form">
+                <h2>\(y = \frac{ax + b}{cx + d}\)</h2>
+                <div class="input-group">
+                    <div class="input-field"><label>a: </label><input type="number" id="nb_a" value="1"></div>
+                    <div class="input-field"><label>b: </label><input type="number" id="nb_b" value="2"></div>
+                    <div class="input-field"><label>c: </label><input type="number" id="nb_c" value="1"></div>
+                    <div class="input-field"><label>d: </label><input type="number" id="nb_d" value="-1"></div>
+                </div>
+                <button class="analyze-btn" onclick="runNhatBien()">Khảo sát & Vẽ</button>
+            </div>
+            <div id="res_nhatbien" class="result-box"></div>
         </div>
     </div>
 
     <script>
-        function moChucNang(idPhanHe) {
-            document.getElementById('main-menu').classList.add('hidden');
-            document.getElementById(idPhanHe).classList.remove('hidden');
+        function openTab(evt, name) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(name).classList.add('active');
+            evt.currentTarget.classList.add('active');
         }
-        function quayLaiMenu() {
-            const sections = document.querySelectorAll('.sub-section');
-            sections.forEach(s => s.classList.add('hidden'));
-            document.getElementById('main-menu').classList.remove('hidden');
+
+        function initCanvas(id) {
+            return `<div class="canvas-container"><canvas id="${id}" width="500" height="500"></canvas></div>`;
         }
-        function quaySoNgauNhien() {
-            const text = document.getElementById('student-list').value;
-            const danhSach = text.split('\n').map(name => name.trim()).filter(name => name !== "");
-            if (danhSach.length === 0) { alert("Hãy nhập tên học sinh!"); return; }
-            const btn = document.getElementById('btn-spin');
-            const display = document.getElementById('display-name');
-            btn.disabled = true;
-            let count = 0;
-            const running = setInterval(() => {
-                display.innerText = danhSach[Math.floor(Math.random() * danhSach.length)];
-                count++;
-                if (count > 25) {
-                    clearInterval(running);
-                    btn.disabled = false;
-                    display.innerText = "🎉 " + danhSach[Math.floor(Math.random() * danhSach.length)] + " 🎉";
+
+        function drawGraph(canvasId, f) {
+            const canvas = document.getElementById(canvasId); if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            ctx.clearRect(0,0,w,h);
+            
+            // Vẽ hệ trục tọa độ Oxy và lưới ô vuông
+            ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+            for(let x=0; x<w; x+=25) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+            for(let y=0; y<h; y+=25) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+            
+            ctx.strokeStyle = '#333'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(0, h/2); ctx.lineTo(w, h/2); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(w/2, 0); ctx.lineTo(w/2, h); ctx.stroke();
+
+            // Vẽ đồ thị đường cong hàm số bằng vòng lặp pixel
+            ctx.strokeStyle = '#dc3545'; ctx.lineWidth = 2.5; ctx.beginPath();
+            let first = true;
+            for(let px=0; px<w; px++) {
+                let x = (px - w/2) / 25;
+                let y = f(x);
+                let py = h/2 - y * 25;
+                if (py >= 0 && py <= h) {
+                    if(first) { ctx.moveTo(px, py); first = false; }
+                    else ctx.lineTo(px, py);
                 }
-            }, 80);
+            }
+            ctx.stroke();
         }
-        function pressCalc(val) { document.getElementById('calc-screen').value += val; }
-        function clearCalc() { document.getElementById('calc-screen').value = ""; }
-        function equalCalc() {
-            try { document.getElementById('calc-screen').value = eval(document.getElementById('calc-screen').value); } 
-            catch(e) { document.getElementById('calc-screen').value = 'Lỗi'; }
+
+        function runBac3() {
+            const a = parseFloat(document.getElementById('b3_a').value);
+            const b = parseFloat(document.getElementById('b3_b').value);
+            const c = parseFloat(document.getElementById('b3_c').value);
+            const d = parseFloat(document.getElementById('b3_d').value);
+            const box = document.getElementById('res_bac3');
+            box.innerHTML = `<h3>Khảo sát hoàn tất:</h3>` + initCanvas('cv_b3');
+            box.style.display = 'block';
+            drawGraph('cv_b3', x => a*x*x*x + b*x*x + c*x + d);
+        }
+
+        function runTrungPhuong() {
+            const a = parseFloat(document.getElementById('tp_a').value);
+            const b = parseFloat(document.getElementById('tp_b').value);
+            const c = parseFloat(document.getElementById('tp_c').value);
+            const box = document.getElementById('res_trungphuong');
+            box.innerHTML = `<h3>Khảo sát hoàn tất:</h3>` + initCanvas('cv_tp');
+            box.style.display = 'block';
+            drawGraph('cv_tp', x => a*x*x*x*x + b*x*x + c);
+        }
+
+        function runNhatBien() {
+            const a = parseFloat(document.getElementById('nb_a').value);
+            const b = parseFloat(document.getElementById('nb_b').value);
+            const c = parseFloat(document.getElementById('nb_c').value);
+            const d = parseFloat(document.getElementById('nb_d').value);
+            const box = document.getElementById('res_nhatbien');
+            box.innerHTML = `<h3>Khảo sát hoàn tất:</h3>` + initCanvas('cv_nb');
+            box.style.display = 'block';
+            drawGraph('cv_nb', x => (c*x + d !== 0) ? (a*x + b)/(c*x + d) : null);
         }
     </script>
 </body>

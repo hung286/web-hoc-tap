@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trợ Lý Giáo Viên & Không Gian Học Tập</title>
     
-    <!-- Cấu hình thư viện công thức Toán MathJax trực tuyến -->
+    <!-- Tối ưu cấu hình MathJax tăng tốc xử lý, chống giật lag -->
     <script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
                 displayMath: [['$$', '$$'], ['\\[', '\\]']]
             },
-            svg: { fontCache: 'global' }
+            svg: { fontCache: 'global' },
+            options: { skipHtmlTags: ['script', 'style', 'textarea', 'pre', 'code'] }
         };
     </script>
     <script type="text/javascript" id="MathJax-script" async src="https://jsdelivr.net"></script>
@@ -64,7 +65,7 @@
         /* Giao diện Menu Chính dạng Card Grid */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
         }
         
@@ -75,11 +76,11 @@
             padding: 25px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
         
         .menu-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
             border-color: #667eea;
         }
@@ -101,7 +102,7 @@
             font-size: 0.95em;
         }
 
-        /* Các phân vùng chức năng ẩn hiện */
+        /* Các phân vùng chức năng ẩn hiện mượt mà */
         .space-section {
             display: none;
         }
@@ -161,7 +162,6 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
         
         .action-btn:hover {
@@ -176,6 +176,7 @@
             border: 1px solid #cbd5e1;
             margin-top: 10px;
             font-size: 15px;
+            resize: vertical;
         }
 
         /* Máy tính Mini */
@@ -290,7 +291,7 @@
             <p>"Đổi mới sáng tạo, cùng kiến tạo những giờ học truyền cảm hứng"</p>
         </div>
 
-        <!-- MÀN HÌNH CHÍNH: MENU 5 CARD -->
+        <!-- MÀN HÌNH CHÍNH: MENU CHÍNH DẠNG 5 CARD -->
         <div id="main_menu" class="space-section active">
             <div class="menu-grid">
                 <div class="menu-card" onclick="switchSection('sec_random')">
@@ -330,8 +331,3 @@
                 <button class="action-btn" onclick="pickRandomName()">BẮT ĐẦU QUAY</button>
             </div>
             <label style="font-weight:600;">Danh sách học sinh (mỗi tên một dòng):</label>
-            <textarea id="name_list">Nguyễn Văn A&#10;Trần Thị B&#10;Lê Hoàng C&#10;Phạm Minh D</textarea>
-        </div>
-
-        <!-- MỤC 2: TRÒ CHƠI DẠY HỌC -->
-        <div id="sec_game" class="space-section">
